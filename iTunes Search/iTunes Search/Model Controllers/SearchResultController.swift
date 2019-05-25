@@ -8,20 +8,21 @@
 
 import Foundation
 
-class SearchResultController {
-    let baseURL = URL(string: "https://itunes.apple.com")!
+class SearchResultController {    
+    let baseURL = URL(string: "https://itunes.apple.com/search")!
     
     var searchResults: [SearchResult] = []
     
     func performSearch(searchTerm: String, resultType: ResultType, completion: @escaping (Error?) -> Void) {
         var urlComponents = URLComponents(url: baseURL, resolvingAgainstBaseURL: true)
-        let searchTermQueryItem = URLQueryItem(name: "search", value: searchTerm)
+        let searchTermQueryItem = URLQueryItem(name: "term", value: searchTerm)
+        let resultTypeQueryItem = URLQueryItem(name: "entity", value: resultType.rawValue)
         
-        urlComponents?.queryItems = [searchTermQueryItem]
+        urlComponents?.queryItems = [searchTermQueryItem, resultTypeQueryItem]
         
-        guard let url = urlComponents?.url else { return }
+        guard let requestURL = urlComponents?.url else { NSLog("requestURL is nil"); completion(NSError()); return }
         
-        URLSession.shared.dataTask(with: url) { (data, _, error) in
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             if let error = error {
                 NSLog("Error fetching data: \(error)")
                 completion(error)
@@ -32,8 +33,8 @@ class SearchResultController {
             
             let jsonDecoder = JSONDecoder()
             do {
-                let search = try jsonDecoder.decode(SearchResults.self, from: data)
-                self.searchResults = search.results
+                let searchResult = try jsonDecoder.decode(SearchResults.self, from: data)
+                self.searchResults = searchResult.results
                 completion(nil)
             } catch {
                 NSLog("Unable to decode data into object of type [SearchResult]: \(error)")

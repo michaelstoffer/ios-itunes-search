@@ -62,7 +62,6 @@
 			children = (
 				4C5253132298D1A600171D41 /* Models */,
 				4C5253122298D19C00171D41 /* Model Controllers */,
-				4C5253112298D19600171D41 /* Views */,
 				4C5253102298D18A00171D41 /* View Controllers */,
 				4C52530F2298D18000171D41 /* Storyboards */,
 				4C52530E2298D16A00171D41 /* Resources */,
@@ -95,13 +94,6 @@
 				4C52531A2298DB7800171D41 /* SearchResultsTableViewController.swift */,
 			);
 			path = "View Controllers";
-			sourceTree = "<group>";
-		};
-		4C5253112298D19600171D41 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 		4C5253122298D19C00171D41 /* Model Controllers */ = {
